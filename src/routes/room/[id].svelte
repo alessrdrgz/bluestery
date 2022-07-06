@@ -2,7 +2,6 @@
 	import Conversation from '../../components/Conversation.svelte';
 	import ConversationInput from '../../components/ConversationInput.svelte';
 	import { activeConversation } from '../../store/conversationStore';
-	console.log({ $activeConversation });
 </script>
 
 {#if $activeConversation}

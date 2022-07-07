@@ -5,6 +5,7 @@
 	import { stringToColor } from '../utils/string-to-color';
 	import { activeConversationUsers } from '../store/conversationStore';
 	import { formatDate } from '../utils/date-format';
+	import MessageMenu from './ContextMenu/MessageMenu.svelte';
 
 	export let message: Message;
 
@@ -13,6 +14,20 @@
 
 	const userProfile = $activeConversationUsers.find((user) => user.username === author);
 	const accentColor = userProfile?.accent_color ?? stringToColor({ str: userProfile?.id ?? '' });
+
+	let showMenu = false;
+	let pos = { x: 0, y: 0 };
+
+	async function handleOpenMenu(e: MouseEvent) {
+		e.preventDefault();
+		if (showMenu) {
+			showMenu = false;
+			await new Promise((res) => setTimeout(res, 100));
+		}
+
+		pos = { x: e.clientX, y: e.clientY };
+		showMenu = true;
+	}
 </script>
 
 <div
@@ -20,6 +35,7 @@
 	class={`flex items-start mt-14 w-4/5 ${
 		local ? 'justify-end mr-4 ml-auto' : 'ml-4 mr-auto'
 	} relative `}
+	on:contextmenu={handleOpenMenu}
 >
 	{#if !local}
 		<UserAvatar avatar={userProfile?.avatar_url ?? ''} />
@@ -61,6 +77,8 @@
 		>
 	{/if}
 </div>
+
+<MessageMenu {...pos} {showMenu} {message} />
 
 <style>
 	.tail:after {

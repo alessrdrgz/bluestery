@@ -20,8 +20,10 @@
 	});
 </script>
 
-<div bind:this={div} class="overflow-y-scroll h-4/5">
-	{#each messages as message}
-		<Message {message} />
-	{/each}
+<div bind:this={div} class="h-4/5 overflow-y-scroll overflow-x-hidden">
+	<div class=" flex flex-col justify-end [&>div]:flex-grow-0 [&>div]:flex-shrink-0">
+		{#each messages as message}
+			<Message {message} />
+		{/each}
+	</div>
 </div>

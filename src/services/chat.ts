@@ -1,4 +1,6 @@
 import { Client, Conversation } from '@twilio/conversations';
+import { supabase } from './supabase';
+import type { UserProfile } from './user';
 
 export async function createOrJoinConversation({
 	room,
@@ -36,4 +38,22 @@ export async function createOrJoinConversation({
 
 		client.on('connectionError', (error) => console.error(error));
 	});
+}
+
+export async function getAllUsersFromConversation({
+	conversation
+}: {
+	conversation: Conversation;
+}): Promise<Array<UserProfile>> {
+	const users = await conversation.getParticipants();
+	const usersProfiles = [];
+	for (const user of users) {
+		const { data, error } = await supabase
+			.from<UserProfile>('profiles')
+			.select()
+			.filter('username', 'eq', user.identity);
+		if (!error && data.length > 0) usersProfiles.push(data[0]);
+	}
+
+	return usersProfiles;
 }

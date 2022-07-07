@@ -37,6 +37,7 @@
 	"dependencies": {
 		"@joeattardi/emoji-button": "4.6.4",
 		"@supabase/supabase-js": "1.35.4",
+		"@svicons/material-outlined": "^0.1.11",
 		"@twilio/conversations": "2.1.0",
 		"twilio": "3.78.0"
 	}

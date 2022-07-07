@@ -5,13 +5,16 @@
 	import type { Message } from '@twilio/conversations';
 	import { copyToClipboard } from '../../utils/copy-to-clipboard';
 	import CopyIcon from '@svicons/material-outlined/content-copy.svelte';
+	import { user } from '../../store/userStore';
+	import { activeConversation } from '../../store/conversationStore';
+	import DeleteIcon from '@svicons/material-outlined/delete.svelte';
 
 	export let x: number;
 	export let y: number;
 	export let showMenu = false;
 	export let message: Message;
 
-	const { body } = message;
+	const { body, author } = message;
 	const closeMenu = () => (showMenu = false);
 </script>
 
@@ -26,6 +29,16 @@
 		>
 			<CopyIcon class="w-4 h-4" color="rgb(107, 114, 128)" />
 			Copiar mensaje
+		</MenuOption>
+		<MenuDivider />
+		<MenuOption
+			on:click={async () => {
+				await message.remove();
+			}}
+			isDisabled={author !== $user?.username && $activeConversation?.createdBy !== $user?.username}
+		>
+			<DeleteIcon class="w-4 h-4" color="rgb(107, 114, 128)" />
+			Eliminar mensaje
 		</MenuOption>
 	</Menu>
 {/if}

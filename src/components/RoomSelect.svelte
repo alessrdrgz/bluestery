@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { getAccessToken } from '../services/user';
 	import { user } from '../store/userStore';
-	import { activeConversation } from '../store/conversationStore';
+	import { activeConversation, activeConversationUsers } from '../store/conversationStore';
 	import { goto } from '$app/navigation';
-	import { createOrJoinConversation } from '../services/chat';
+	import { createOrJoinConversation, getAllUsersFromConversation } from '../services/chat';
 
 	let room = '';
 
@@ -11,13 +11,17 @@
 		if (!$user || $user?.token == null) return;
 		const accessToken = await getAccessToken({ token: $user.token });
 		try {
-			const conversation = await createOrJoinConversation({ room, accessToken });
+			const conversation = await createOrJoinConversation({
+				room: room.toLowerCase(),
+				accessToken
+			});
 			if (conversation) {
 				$activeConversation = conversation;
-				goto(`/room/${room}`);
+				$activeConversationUsers = await getAllUsersFromConversation({ conversation });
+				goto(`/room/${room.toLowerCase()}`);
 			}
 		} catch (e) {
-			console.error(e);
+			console.error(`Error: ${e}`);
 		}
 	}
 </script>

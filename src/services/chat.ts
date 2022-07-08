@@ -71,7 +71,7 @@ export async function addUserToConversation({
 		.filter('username', 'eq', username);
 	if (user.data && user.data.length > 0) {
 		try {
-			const res = await conversation.add(username);
+			const res = await conversation.add(user.data[0].email);
 			return { message: `User ${username} added to conversation` };
 		} catch (e) {
 			if (e instanceof Error) {

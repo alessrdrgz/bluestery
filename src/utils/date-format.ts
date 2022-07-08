@@ -13,5 +13,5 @@ export function formatDate({ date }: { date: Date }) {
 	const formatter = new Intl.DateTimeFormat(locale, options);
 	const formattedDate = formatter.format(date);
 	const today = new Date().toDateString() == date.toDateString();
-	return today ? formattedDate.split(',')[1] : formattedDate;
+	return today ? `Hoy, ${formattedDate.split(',')[1]}` : formattedDate;
 }

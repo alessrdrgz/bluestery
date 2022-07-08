@@ -10,8 +10,8 @@ export function tooltip(element: HTMLElement) {
 		div.setAttribute(
 			'style',
 			`
-        top: ${e.pageX + 5}px;
-        left: ${e.pageY + 5}px;
+        top: ${e.pageY + 20}px;
+        left: ${e.pageX}px;
       `
 		);
 		div.setAttribute(
@@ -22,8 +22,8 @@ export function tooltip(element: HTMLElement) {
 		document.body.appendChild(div);
 	}
 	function mouseMove(e: MouseEvent) {
-		div.style.left = `${e.pageX + 5}px`;
-		div.style.top = `${e.pageY + 5}px`;
+		div.style.left = `${e.pageX}px`;
+		div.style.top = `${e.pageY + 20}px`;
 	}
 	function mouseLeave() {
 		document.body.removeChild(div);

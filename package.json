@@ -2,7 +2,7 @@
 	"name": "secret-chat",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "svelte-kit dev --port 8080",
+		"dev": "vite dev",
 		"build": "vite build",
 		"package": "svelte-kit package",
 		"preview": "vite preview",

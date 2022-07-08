@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { activeConversation } from '../store/conversationStore';
 	import { EmojiButton } from '@joeattardi/emoji-button';
+	import Modal, { bind } from 'svelte-simple-modal';
+	import AddUserModal from './AddUserModal.svelte';
+	import { writable } from 'svelte/store';
 
 	let message = '';
 
@@ -17,6 +20,9 @@
 			message = '';
 		}
 	};
+
+	const addUserModal = writable(null);
+	const openAddUserModal = () => addUserModal.set(bind(AddUserModal, {}));
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
@@ -34,4 +40,8 @@
 		class="ml-2"
 		id="emoji-picker">😄</button
 	>
+
+	<Modal show={$addUserModal}>
+		<button on:click={openAddUserModal}>Add</button>
+	</Modal>
 </div>

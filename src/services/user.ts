@@ -2,6 +2,8 @@ import { supabase } from './supabase';
 import { user, type User } from '../store/userStore';
 import type { Provider, Session } from '@supabase/supabase-js';
 
+const { VITE_PUBLIC_AUTH_REDIRECT: AUTH_REDIRECT } = import.meta.env;
+
 const parseUserData = async (session: Session): Promise<User | null> => {
 	if (session && session.user) {
 		const { user } = session;
@@ -20,7 +22,12 @@ const parseUserData = async (session: Session): Promise<User | null> => {
 };
 
 export async function signIn({ provider }: { provider: string }) {
-	const { session, error } = await supabase.auth.signIn({ provider: provider as Provider });
+	const { session, error } = await supabase.auth.signIn(
+		{ provider: provider as Provider },
+		{
+			redirectTo: AUTH_REDIRECT
+		}
+	);
 	if (!error && session && session.user) {
 		user.set(await parseUserData(session));
 	}

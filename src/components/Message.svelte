@@ -6,17 +6,21 @@
 	import { activeConversationUsers } from '../store/conversationStore';
 	import { formatDate } from '../utils/date-format';
 	import MessageMenu from './ContextMenu/MessageMenu.svelte';
+	import { tooltip } from '../utils/tooltip';
 
 	export let message: Message;
 
-	const { body, author, dateCreated } = message;
-	let local = message.author === $user?.username;
+	const { body, author, dateCreated, dateUpdated } = message;
+	let local = author === $user?.username;
+
+	let editted = dateCreated && dateUpdated ? +dateCreated !== +dateUpdated : false;
 
 	const userProfile = $activeConversationUsers.find((user) => user.username === author);
 	const accentColor = userProfile?.accent_color ?? stringToColor({ str: userProfile?.id ?? '' });
 
 	let showMenu = false;
 	let pos = { x: 0, y: 0 };
+	$: editting = false;
 
 	async function handleOpenMenu(e: MouseEvent) {
 		e.preventDefault();
@@ -27,6 +31,21 @@
 
 		pos = { x: e.clientX, y: e.clientY };
 		showMenu = true;
+	}
+
+	async function handleEdit(e: KeyboardEvent) {
+		if (e.key === 'Enter') {
+			const newText = (e.target as HTMLSpanElement)?.innerText;
+			await message.updateBody(newText);
+			editting = false;
+		}
+	}
+
+	function cancelEdit(e: KeyboardEvent) {
+		if (e.key === 'Escape' && body) {
+			(e.target as HTMLSpanElement).innerText = body;
+			editting = false;
+		}
 	}
 </script>
 
@@ -63,22 +82,32 @@
 			/>
 		</span>
 
-		<span id="message" class="break-all">{body}</span>
-
-		<span class="basis-full h-0" />
+		<span
+			id="message"
+			class="break-all select-none outline-none"
+			contenteditable={editting}
+			on:keypress={handleEdit}
+			on:keydown={cancelEdit}>{body}</span
+		>
 	</div>
 	{#if local}
 		<UserAvatar avatar={userProfile?.avatar_url ?? ''} />
 	{/if}
 
 	{#if dateCreated}
-		<span class={`text-xs text-gray-500 absolute -bottom-5 ${local ? 'right-20' : 'left-20'}`}
-			>{formatDate({ date: dateCreated })}</span
+		<span
+			class={`text-xs text-gray-500 absolute -bottom-5 cursor-default ${
+				local ? 'right-20' : 'left-20'
+			}`}
+			>{formatDate({ date: dateCreated })}{#if editted && dateUpdated}<span
+					title={`Editado: ${formatDate({ date: dateUpdated })}`}
+					use:tooltip>{` (editado)`}</span
+				>{/if}</span
 		>
 	{/if}
 </div>
 
-<MessageMenu {...pos} {showMenu} {message} />
+<MessageMenu {...pos} {showMenu} {message} bind:editting />
 
 <style>
 	.tail:after {

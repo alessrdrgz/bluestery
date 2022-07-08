@@ -8,11 +8,14 @@
 	import { user } from '../../store/userStore';
 	import { activeConversation } from '../../store/conversationStore';
 	import DeleteIcon from '@svicons/material-outlined/delete.svelte';
+	import EditIcon from '@svicons/material-outlined/edit.svelte';
 
 	export let x: number;
 	export let y: number;
 	export let showMenu = false;
 	export let message: Message;
+
+	export let editting = false;
 
 	const { body, author } = message;
 	const closeMenu = () => (showMenu = false);
@@ -29,6 +32,15 @@
 		>
 			<CopyIcon class="w-4 h-4" color="rgb(107, 114, 128)" />
 			Copiar mensaje
+		</MenuOption>
+		<MenuOption
+			on:click={() => {
+				editting = !editting;
+			}}
+			isDisabled={author !== $user?.username}
+		>
+			<EditIcon class="w-4 h-4" color="rgb(107, 114, 128)" />
+			Editar mensaje
 		</MenuOption>
 		<MenuDivider />
 		<MenuOption

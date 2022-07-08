@@ -14,7 +14,7 @@ export const get: RequestHandler = async ({ request }) => {
 	if (!jwt) return { status: 401, body: 'JWT is not defined' };
 
 	const user = await supabase.auth.api.getUser(jwt);
-	const identity = user.data?.user_metadata.user_name;
+	const identity = user.data?.user_metadata.email;
 
 	if (!identity) return { status: 401, body: 'User has no username defined' };
 

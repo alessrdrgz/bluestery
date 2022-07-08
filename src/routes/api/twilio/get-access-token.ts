@@ -11,12 +11,12 @@ const {
 
 export const get: RequestHandler = async ({ request }) => {
 	const jwt = request.headers.get('jwt');
-	if (!jwt) return { status: 401 };
+	if (!jwt) return { status: 401, body: 'JWT is not defined' };
 
 	const user = await supabase.auth.api.getUser(jwt);
 	const identity = user.data?.user_metadata.user_name;
 
-	if (!identity) return { status: 401 };
+	if (!identity) return { status: 401, body: 'User has no username defined' };
 
 	const { AccessToken } = twilio.jwt;
 	const { ChatGrant } = AccessToken;

@@ -28,6 +28,11 @@
 		autoscroll = false;
 		messages = [...messages.filter((msg) => msg.sid !== message.sid)];
 	});
+
+	$activeConversation?.on('messageUpdated', async ({ message }) => {
+		autoscroll = false;
+		messages = [...messages.map((msg) => (msg.sid === message.sid ? message : msg))];
+	});
 </script>
 
 <div bind:this={div} class="h-4/5 overflow-y-scroll overflow-x-hidden">

@@ -57,3 +57,28 @@ export async function getAllUsersFromConversation({
 
 	return usersProfiles;
 }
+
+export async function addUserToConversation({
+	conversation,
+	username
+}: {
+	conversation: Conversation;
+	username: string;
+}) {
+	const user = await supabase
+		.from<UserProfile>('profiles')
+		.select()
+		.filter('username', 'eq', username);
+	if (user.data && user.data.length > 0) {
+		try {
+			const res = await conversation.add(username);
+			return { message: `User ${username} added to conversation` };
+		} catch (e) {
+			if (e instanceof Error) {
+				if (e.message === 'Conflict') {
+					return { message: `User ${username} already in conversation`, error: true };
+				} else return { message: e.message, error: true };
+			} else return { message: e, error: true };
+		}
+	} else return { message: `User ${username} not found`, error: true };
+}

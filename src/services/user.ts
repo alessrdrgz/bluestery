@@ -16,7 +16,7 @@ const parseUserData = async (session: Session): Promise<User | null> => {
 			avatar_url: avatar_url ?? `https://i.pravatar.cc/1000?u=${session.user.id}`,
 			token: session.access_token
 		};
-		await createUserProfile({ id, username, avatar_url, email: email ?? username });
+		await createUserProfile({ id, username, avatar_url });
 		return userData;
 	} else return null;
 };
@@ -60,20 +60,17 @@ export type UserProfile = {
 	id: string;
 	username: string;
 	avatar_url: string;
-	email: string;
 	accent_color?: string;
 };
 
 async function createUserProfile({
 	id,
 	username,
-	avatar_url,
-	email
+	avatar_url
 }: {
 	id: string;
 	username: string;
 	avatar_url: string;
-	email: string;
 }) {
 	const { data, error } = await supabase
 		.from<UserProfile>('profiles')
@@ -83,7 +80,7 @@ async function createUserProfile({
 		if (data.length > 0) {
 			await supabase.from<UserProfile>('profiles').update({ username }).match({ id });
 		} else {
-			await supabase.from<UserProfile>('profiles').insert({ id, username, avatar_url, email });
+			await supabase.from<UserProfile>('profiles').insert({ id, username, avatar_url });
 		}
 	} else throw error;
 }

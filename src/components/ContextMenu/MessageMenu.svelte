@@ -37,7 +37,7 @@
 			on:click={() => {
 				editting = !editting;
 			}}
-			isDisabled={author !== $user?.username}
+			isDisabled={author !== $user?.id}
 		>
 			<EditIcon class="w-4 h-4" color="rgb(107, 114, 128)" />
 			Editar mensaje
@@ -47,7 +47,7 @@
 			on:click={async () => {
 				await message.remove();
 			}}
-			isDisabled={author !== $user?.username && $activeConversation?.createdBy !== $user?.username}
+			isDisabled={author !== $user?.id && $activeConversation?.createdBy !== $user?.id}
 		>
 			<DeleteIcon class="w-4 h-4" color="rgb(107, 114, 128)" />
 			Eliminar mensaje

@@ -16,7 +16,7 @@ const parseUserData = async (session: Session): Promise<User | null> => {
 			avatar_url: avatar_url ?? `https://i.pravatar.cc/1000?u=${session.user.id}`,
 			token: session.access_token
 		};
-		await createUserProfile({ id, username, avatar_url });
+		await createUserProfile({ id, username: username ?? email?.split('@')[0], avatar_url });
 		return userData;
 	} else return null;
 };
@@ -77,9 +77,7 @@ async function createUserProfile({
 		.select()
 		.filter('id', 'eq', id);
 	if (!error) {
-		if (data.length > 0) {
-			await supabase.from<UserProfile>('profiles').update({ username }).match({ id });
-		} else {
+		if (data.length >= 0) {
 			await supabase.from<UserProfile>('profiles').insert({ id, username, avatar_url });
 		}
 	} else throw error;

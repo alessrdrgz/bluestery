@@ -51,7 +51,7 @@ export async function getAllUsersFromConversation({
 		const { data, error } = await supabase
 			.from<UserProfile>('profiles')
 			.select()
-			.filter('username', 'eq', user.identity);
+			.filter('id', 'eq', user.identity);
 		if (!error && data.length > 0) usersProfiles.push(data[0]);
 	}
 
@@ -71,7 +71,7 @@ export async function addUserToConversation({
 		.filter('username', 'eq', username);
 	if (user.data && user.data.length > 0) {
 		try {
-			const res = await conversation.add(username);
+			await conversation.add(user.data[0].id);
 			return { message: `User ${username} added to conversation` };
 		} catch (e) {
 			if (e instanceof Error) {

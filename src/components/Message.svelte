@@ -11,11 +11,11 @@
 	export let message: Message;
 
 	const { body, author, dateCreated, dateUpdated } = message;
-	let local = author === $user?.username;
+	let local = author === $user?.id;
 
 	let editted = dateCreated && dateUpdated ? +dateCreated !== +dateUpdated : false;
 
-	const userProfile = $activeConversationUsers.find((user) => user.username === author);
+	const userProfile = $activeConversationUsers.find((user) => user.id === author);
 	const accentColor = userProfile?.accent_color ?? stringToColor({ str: userProfile?.id ?? '' });
 
 	let showMenu = false;
@@ -72,7 +72,9 @@
 				local ? 'right-0 -mr-1 rotate-3' : 'left-0 -ml-1 -rotate-3'
 			} text-xs whitespace-nowrap text-ellipsis text-white py-1 px-3 -mb-1 z-10`}
 		>
-			<span id="name" class={`${local ? 'mr-1' : 'ml-1'} relative z-10`}>{author}</span>
+			<span id="name" class={`${local ? 'mr-1' : 'ml-1'} relative z-10`}
+				>{userProfile?.username}</span
+			>
 			<i
 				id="meta-bg"
 				class={`h-full w-full absolute top-0 left-0 block ${

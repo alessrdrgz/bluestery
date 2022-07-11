@@ -65,7 +65,7 @@
 
 <svelte:window on:keydown={navigateList} />
 
-<div class="relative w-full">
+<div class="absolute">
 	<input
 		type="text"
 		{placeholder}

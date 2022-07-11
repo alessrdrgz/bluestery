@@ -64,7 +64,7 @@ export async function addUserToConversation({
 }: {
 	conversation: Conversation;
 	username: string;
-}) {
+}): Promise<{ message: string; error?: boolean }> {
 	const user = await supabase
 		.from<UserProfile>('profiles')
 		.select()
@@ -72,13 +72,13 @@ export async function addUserToConversation({
 	if (user.data && user.data.length > 0) {
 		try {
 			await conversation.add(user.data[0].id);
-			return { message: `User ${username} added to conversation` };
+			return { message: `Usuario ${username} añadido al chat` };
 		} catch (e) {
 			if (e instanceof Error) {
 				if (e.message === 'Conflict') {
-					return { message: `User ${username} already in conversation`, error: true };
+					return { message: `El usuario ${username} ya forma parte del chat`, error: true };
 				} else return { message: e.message, error: true };
-			} else return { message: e, error: true };
+			} else return { message: e as string, error: true };
 		}
-	} else return { message: `User ${username} not found`, error: true };
+	} else return { message: `No se ha encontrado el usuario: ${username}`, error: true };
 }

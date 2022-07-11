@@ -41,7 +41,7 @@
 		id="emoji-picker">😄</button
 	>
 
-	<Modal show={$addUserModal}>
+	<Modal show={$addUserModal} classContent="overflow-y-visible">
 		<button on:click={openAddUserModal}>Add</button>
 	</Modal>
 </div>

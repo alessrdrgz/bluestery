@@ -30,6 +30,7 @@
 		<AutoComplete
 			data={users}
 			placeholder="Nombre de usuario"
+			objectType
 			objectKey="username"
 			bind:inputValue={selectedUser}
 		/>

@@ -82,3 +82,9 @@ async function createUserProfile({
 		}
 	} else throw error;
 }
+
+export async function getAllUsers(): Promise<Array<UserProfile>> {
+	const { data, error } = await supabase.from<UserProfile>('profiles').select();
+	if (!error) return data;
+	else return [];
+}

@@ -2,6 +2,7 @@
 	import { onMount, afterUpdate } from 'svelte';
 	import { activeConversation } from '../store/conversationStore';
 	import type { Message as Msg } from '@twilio/conversations';
+	import { user } from '../store/userStore';
 	import Message from './Message.svelte';
 	let div: HTMLDivElement;
 	let messages: Array<Msg> = [];
@@ -12,30 +13,31 @@
 			const paginator = await $activeConversation.getMessages();
 			messages = paginator.items;
 			$activeConversation.on('messageAdded', (message: Msg) => {
+				if (message.author === $user?.id) autoscroll = true;
 				messages = [...messages, message];
+			});
+
+			$activeConversation?.on('messageRemoved', async (message) => {
+				messages = [...messages.filter((msg) => msg.sid !== message.sid)];
+			});
+
+			$activeConversation?.on('messageUpdated', async ({ message }) => {
+				messages = [...messages.map((msg) => (msg.sid === message.sid ? message : msg))];
 			});
 		}
 	});
 
 	afterUpdate(() => {
-		if (autoscroll) {
-			div.scrollTo(0, div.scrollHeight);
-		}
-		autoscroll = true;
+		if (autoscroll) div.scrollTo(0, div.scrollHeight);
 	});
 
-	$activeConversation?.on('messageRemoved', async (message) => {
-		autoscroll = false;
-		messages = [...messages.filter((msg) => msg.sid !== message.sid)];
-	});
-
-	$activeConversation?.on('messageUpdated', async ({ message }) => {
-		autoscroll = false;
-		messages = [...messages.map((msg) => (msg.sid === message.sid ? message : msg))];
-	});
+	const handleUserScroll = () => {
+		const { scrollTop, scrollHeight, clientHeight } = div;
+		autoscroll = Math.round(scrollHeight - scrollTop) === clientHeight;
+	};
 </script>
 
-<div bind:this={div} class="h-4/5 overflow-y-scroll overflow-x-hidden">
+<div bind:this={div} class="h-4/5 overflow-y-scroll overflow-x-hidden" on:scroll={handleUserScroll}>
 	<div class=" flex flex-col justify-end [&>div]:flex-grow-0 [&>div]:flex-shrink-0">
 		{#key messages}
 			{#each messages as message}

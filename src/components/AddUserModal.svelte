@@ -12,7 +12,6 @@
 
 	const handleAddUser = async () => {
 		if ($activeConversation && selectedUser) {
-			console.log(selectedUser);
 			const { message, error } = await addUserToConversation({
 				conversation: $activeConversation,
 				username: selectedUser
@@ -20,7 +19,6 @@
 
 			responseMessage = message;
 			responseError = error ?? false;
-			console.log({ message, error });
 		}
 	};
 </script>

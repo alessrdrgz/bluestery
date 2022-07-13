@@ -23,7 +23,6 @@ export async function joinConversation(
 			goto(`/room/${room.toLowerCase()}`);
 		} else return { error: true, message: conversation?.message ?? `No se pudo crear el chat` };
 	} catch (e) {
-		console.log('ERROR');
 		if (e instanceof Error) return { error: true, message: e.message };
 		else return { error: true, message: e as string };
 	}

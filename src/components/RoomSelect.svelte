@@ -1,41 +1,33 @@
 <script lang="ts">
-	import { getAccessToken } from '../services/user';
 	import { user } from '../store/userStore';
-	import { activeConversation, activeConversationUsers } from '../store/conversationStore';
-	import { goto } from '$app/navigation';
-	import { createOrJoinConversation, getAllUsersFromConversation } from '../services/chat';
+	import { joinConversation } from '../utils/handle-user-conversation';
 
 	let room = '';
+	let error = '';
 
 	async function handleSubmit(e: SubmitEvent) {
-		if (!$user || $user?.token == null) return;
-		const accessToken = await getAccessToken({ token: $user.token });
-		try {
-			const conversation = await createOrJoinConversation({
-				room: room.toLowerCase(),
-				accessToken
-			});
-			if (conversation) {
-				$activeConversation = conversation;
-				$activeConversationUsers = await getAllUsersFromConversation({ conversation });
-				goto(`/room/${room.toLowerCase()}`);
+		if ($user) {
+			const res = await joinConversation(room, $user);
+			if (typeof res === 'object' && res.error) {
+				error = res.message;
 			}
-		} catch (e) {
-			console.error(`Error: ${e}`);
 		}
 	}
 </script>
 
 <div class="flex flex-col max-w-md mx-auto mt-10">
 	<form on:submit|preventDefault={handleSubmit}>
-		<label for="room-select" class="block mb-2 text-sm font-medium text-gray-700">
+		<label for="room-select" class="block mb-2 text-mdº font-medium text-gray-700">
 			Introduce el código de la sala a la que quieres entrar
 		</label>
+		<p class="text-red-500 text-xs font-medium text-center mb-2">{error}</p>
 		<input
 			id="room-select"
 			bind:value={room}
 			type="text"
-			class="block p-4 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-md focus:ring-blue-500 focus:border-blue-500 uppercase text-center text-2xl"
+			class={`block p-4 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-md focus:ring-blue-500 focus:border-blue-500 uppercase text-center text-2xl ${
+				error === '' && 'mt-8'
+			}`}
 		/>
 		<button
 			type="submit"

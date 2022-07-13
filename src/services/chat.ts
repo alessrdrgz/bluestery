@@ -8,31 +8,29 @@ export async function createOrJoinConversation({
 }: {
 	room: string;
 	accessToken: string;
-}): Promise<Conversation | null> {
+}): Promise<Conversation | { message: string; error: boolean }> {
 	const client = new Client(accessToken);
 
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		client.on('stateChanged', async (state) => {
 			if (state === 'initialized') {
 				let conversation;
 
 				try {
 					conversation = await client.createConversation({ uniqueName: room });
+					resolve(conversation);
 				} catch (e) {
 					if (e instanceof Error && e.message === 'Conflict') {
 						try {
 							conversation = await client.getConversationByUniqueName(room);
+							resolve(conversation);
 						} catch (e) {
 							if (e instanceof Error && e.message === 'Forbidden') {
-								reject(`No tienes acceso a este chat`);
-							} else reject(e);
+								resolve({ message: `No tienes acceso a este chat`, error: true });
+							} else resolve({ message: e as string, error: true });
 						}
-					} else reject(e);
+					}
 				}
-
-				conversation?.join();
-
-				resolve(conversation ?? null);
 			}
 		});
 

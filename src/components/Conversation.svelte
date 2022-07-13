@@ -37,12 +37,18 @@
 	};
 </script>
 
-<div bind:this={div} class="h-4/5 overflow-y-scroll overflow-x-hidden" on:scroll={handleUserScroll}>
-	<div class=" flex flex-col justify-end [&>div]:flex-grow-0 [&>div]:flex-shrink-0">
-		{#key messages}
-			{#each messages as message}
-				<Message {message} />
-			{/each}
-		{/key}
+{#key $activeConversation}
+	<div
+		bind:this={div}
+		class="h-4/5 md:overflow-y-hidden md:hover:overflow-y-auto overflow-x-hidden hover:-mr-[3px]"
+		on:scroll={handleUserScroll}
+	>
+		<div class=" flex flex-col justify-end [&>div]:flex-grow-0 [&>div]:flex-shrink-0">
+			{#key messages}
+				{#each messages as message}
+					<Message {message} />
+				{/each}
+			{/key}
+		</div>
 	</div>
-</div>
+{/key}

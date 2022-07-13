@@ -43,8 +43,9 @@
 
 	<Modal
 		show={$addUserModal}
-		classContent="overflow-y-visible"
-		styleContent={{ overflow: 'visible' }}
+		styleContent={{ overflow: 'visible', padding: '20px' }}
+		styleWindowWrap={{ width: '300px', margin: 'auto' }}
+		closeButton={false}
 	>
 		<button on:click={openAddUserModal}>Add</button>
 	</Modal>

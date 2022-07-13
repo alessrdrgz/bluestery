@@ -40,7 +40,7 @@
 {#key $activeConversation}
 	<div
 		bind:this={div}
-		class="h-4/5 md:overflow-y-hidden md:hover:overflow-y-auto overflow-x-hidden hover:-mr-[3px]"
+		class="h-4/5 md:overflow-y-hidden md:hover:overflow-y-auto overflow-x-hidden hover:-mr-[2.5px]"
 		on:scroll={handleUserScroll}
 	>
 		<div class=" flex flex-col justify-end [&>div]:flex-grow-0 [&>div]:flex-shrink-0">

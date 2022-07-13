@@ -38,9 +38,13 @@ export async function logout() {
 	await supabase.auth.signOut();
 }
 
-supabase.auth.onAuthStateChange(async (_evt, session) => {
+export async function refreshUserSession({ session }: { session: Session | null }) {
 	if (session) user.set(await parseUserData(session));
 	else user.set(null);
+}
+
+supabase.auth.onAuthStateChange(async (_evt, session) => {
+	refreshUserSession({ session });
 });
 
 export async function getAccessToken({ token }: { token: string }) {

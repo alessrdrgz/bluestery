@@ -9,15 +9,7 @@ const {
 	VITE_PUBLIC_TWILIO_SERVICE_SID: TWILIO_SERVICE_SID
 } = import.meta.env;
 
-export const get: RequestHandler = async ({ request }) => {
-	const jwt = request.headers.get('jwt');
-	if (!jwt) return { status: 401, body: 'JWT is not defined' };
-
-	const user = await supabase.auth.api.getUser(jwt);
-	const identity = user.data?.id;
-
-	if (!identity) return { status: 401, body: 'User has no username defined' };
-
+export function generateAccessToken(identity: string): string {
 	const { AccessToken } = twilio.jwt;
 	const { ChatGrant } = AccessToken;
 
@@ -31,10 +23,24 @@ export const get: RequestHandler = async ({ request }) => {
 
 	accessToken.addGrant(conversationGrant);
 
+	return accessToken.toJwt();
+}
+
+export const get: RequestHandler = async ({ request }) => {
+	const jwt = request.headers.get('jwt');
+	if (!jwt) return { status: 401, body: 'JWT is not defined' };
+
+	const user = await supabase.auth.api.getUser(jwt);
+	const identity = user.data?.id;
+
+	if (!identity) return { status: 401, body: 'User has no username defined' };
+
+	const accessToken = await generateAccessToken(identity);
+
 	return {
 		status: 200,
 		body: {
-			accessToken: accessToken.toJwt()
+			accessToken
 		}
 	};
 };

@@ -65,14 +65,14 @@
 
 <svelte:window on:keydown={navigateList} />
 
-<div class="absolute">
+<div class="absolute w-4/5">
 	<input
 		type="text"
 		{placeholder}
 		bind:this={inputEl}
 		bind:value={inputValue}
 		on:input={filterData}
-		class="w-full p-2"
+		class="w-full p-2 placeholder:text-center"
 	/>
 
 	{#if filteredData.length > 0}

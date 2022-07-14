@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { getAllUsers } from '../services/user';
-	import { addUserToConversation } from '../services/chat';
-	import { activeConversation } from '../store/conversationStore';
-	import PrimaryButton from './buttons/Primary.svelte';
-	import RedButton from './buttons/Red.svelte';
-	import AutoComplete from './AutoCompleteInput.svelte';
-	import { generateConversationInviteUrl } from '../services/chat';
-	import { user } from '../store/userStore';
-	import { copyToClipboard } from '../utils/copy-to-clipboard';
+	import { getAllUsers } from '../../../services/user';
+	import { addUserToConversation } from '../../../services/chat';
+	import { activeConversation } from '../../../store/conversationStore';
+	import PrimaryButton from '../../buttons/Primary.svelte';
+	import RedButton from '../../buttons/Red.svelte';
+	import AutoComplete from '../AutoCompleteInput.svelte';
+	import { generateConversationInviteUrl } from '../../../services/chat';
+	import { user } from '../../../store/userStore';
+	import { copyToClipboard } from '../../../utils/copy-to-clipboard';
 
 	let selectedUser: string = '';
 	let responseMessage: string;
@@ -38,7 +38,8 @@
 			});
 
 			if (error || message) {
-				console.log({ error, message });
+				responseMessage = message;
+				responseError = error;
 			} else {
 				copyToClipboard(url);
 				clipboardMessageEl.classList.remove('hidden');

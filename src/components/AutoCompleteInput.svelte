@@ -77,7 +77,7 @@
 
 	{#if filteredData.length > 0}
 		<ul
-			class="relative m-0 p-0 top-0 w-full border-gray-400 border bg-gray-200 rounded-b-lg h-28 overflow-y-scroll"
+			class="relative m-0 p-0 top-0 w-full border-gray-400 border bg-gray-200 rounded-b-lg max-h-28 overflow-y-scroll"
 		>
 			{#each filteredData as v, i}
 				<li

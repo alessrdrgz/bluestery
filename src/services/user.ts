@@ -1,6 +1,7 @@
 import { supabase } from './supabase';
 import { user, type User } from '../store/userStore';
 import type { Provider, Session } from '@supabase/supabase-js';
+import { goto } from '$app/navigation';
 
 const { VITE_PUBLIC_AUTH_REDIRECT: AUTH_REDIRECT } = import.meta.env;
 
@@ -91,4 +92,28 @@ export async function getAllUsers(): Promise<Array<UserProfile>> {
 	const { data, error } = await supabase.from<UserProfile>('profiles').select();
 	if (!error) return data;
 	else return [];
+}
+
+export async function acceptInvitation({
+	accessToken,
+	sidToken,
+	user
+}: {
+	accessToken: string;
+	sidToken: string;
+	user: User;
+}) {
+	const res = await fetch('/api/twilio/accept-invitation', {
+		headers: {
+			jwt: user.token,
+			accessToken,
+			sidToken
+		}
+	});
+
+	if (res.status === 200 || res.status === 304) {
+		const location = res.headers.get('Location');
+		if (location) return goto(location);
+		else return goto('/');
+	} else return res.json();
 }

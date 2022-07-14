@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { onMount, afterUpdate } from 'svelte';
-	import { activeConversation } from '../store/conversationStore';
+	import { activeConversation } from '../../store/conversationStore';
 	import type { Message as Msg } from '@twilio/conversations';
-	import { user } from '../store/userStore';
-	import Message from './Message.svelte';
+	import { user } from '../../store/userStore';
+	import Message from './chat/Message.svelte';
 	let div: HTMLDivElement;
 	let messages: Array<Msg> = [];
 	let autoscroll = true;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { activeConversation } from '../store/conversationStore';
+	import { activeConversation } from '../../../store/conversationStore';
 	import { EmojiButton } from '@joeattardi/emoji-button';
 	import Modal, { bind } from 'svelte-simple-modal';
 	import AddUserModal from './AddUserModal.svelte';

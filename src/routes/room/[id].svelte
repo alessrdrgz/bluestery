@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Conversation from '../../components/Conversation.svelte';
+	import Conversation from '../../components/conversation/Conversation.svelte';
 	import { Conversation as ConversationType } from '@twilio/conversations';
-	import ConversationInput from '../../components/ConversationInput.svelte';
+	import ConversationInput from '../../components/conversation/conversation-input/ConversationInput.svelte';
 	import { activeConversation } from '../../store/conversationStore';
 	import { onMount } from 'svelte';
 	import { user } from '../../store/userStore';

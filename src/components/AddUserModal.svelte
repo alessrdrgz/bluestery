@@ -9,10 +9,11 @@
 	import { user } from '../store/userStore';
 	import { copyToClipboard } from '../utils/copy-to-clipboard';
 
-	let selectedUser: string;
+	let selectedUser: string = '';
 	let responseMessage: string;
 	let responseError: boolean = false;
 	let clipboardMessageEl: HTMLSpanElement;
+	let urlLoading = false;
 
 	const userPromise = getAllUsers();
 
@@ -29,6 +30,7 @@
 	};
 
 	const generateUrl = async () => {
+		urlLoading = true;
 		if ($user?.token && $activeConversation?.sid) {
 			const { message, error, url } = await generateConversationInviteUrl({
 				token: $user.token,
@@ -45,6 +47,7 @@
 				}, 2000);
 			}
 		}
+		urlLoading = false;
 	};
 
 	const handleCloseModal = (e: MouseEvent) => {
@@ -75,19 +78,27 @@
 	</div>
 	<div class="text-center pt-16">
 		{#if $activeConversation !== null}
-			<ul class="grid grid-cols-2">
+			<ul class="grid grid-cols-2 gap-2">
 				<li>
-					<RedButton on:click={handleCloseModal}>Cancelar</RedButton>
+					<RedButton on:click={handleCloseModal} class="w-full">Cancelar</RedButton>
 				</li>
 				<li>
-					<PrimaryButton on:click={handleAddUser} disabled={selectedUser}>Añadir</PrimaryButton>
+					{#key selectedUser}
+						<PrimaryButton on:click={handleAddUser} class="w-full" disabled={selectedUser === ''}
+							>Añadir</PrimaryButton
+						>
+					{/key}
 				</li>
 			</ul>
 
-			<div class="border-2 border-gray-400 rounded-lg w-4/5 h-0 mx-auto m-5" />
+			<div class="border-2 border-gray-400 rounded-lg w-full h-0 mx-auto m-5" />
 
 			<div class="mx-auto relative">
-				<PrimaryButton on:click={generateUrl}>Generar enlace</PrimaryButton>
+				{#key urlLoading}
+					<PrimaryButton on:click={generateUrl} class="w-full" disabled={urlLoading}
+						>Generar enlace</PrimaryButton
+					>
+				{/key}
 				<span class="text-gray-400 text-center block"
 					>El enlace solo es válido durante 15 minutos</span
 				>

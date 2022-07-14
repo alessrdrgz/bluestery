@@ -80,3 +80,18 @@ export async function addUserToConversation({
 		}
 	} else return { message: `No se ha encontrado el usuario: ${username}`, error: true };
 }
+
+export async function generateConversationInviteUrl({
+	token,
+	sid
+}: {
+	token: string;
+	sid: string;
+}) {
+	return fetch('/api/twilio/generate-invite-url', {
+		headers: {
+			jwt: token,
+			sid
+		}
+	}).then((res) => res.json());
+}

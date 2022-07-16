@@ -2,12 +2,15 @@
 	import Conversation from '../../components/conversation/Conversation.svelte';
 	import { Conversation as ConversationType } from '@twilio/conversations';
 	import ConversationInput from '../../components/conversation/conversation-input/ConversationInput.svelte';
-	import { activeConversation } from '../../store/conversationStore';
+	import { activeConversation, activeConversationUsers } from '../../store/conversationStore';
 	import { onMount } from 'svelte';
 	import { user } from '../../store/userStore';
 	import { joinConversation } from '../../utils/handle-user-conversation';
 	import { page } from '$app/stores';
 	import Spinner from '../../components/Spinner.svelte';
+	import ConversationHeader from '../../components/conversation/ConversationHeader.svelte';
+	import { supabase } from '../../services/supabase';
+	import type { UserProfile } from '../../services/user';
 
 	let message: string = '';
 	let loading = true;
@@ -23,6 +26,31 @@
 				message = res.message;
 			}
 		} else if (!$user) message = 'Debe iniciar sesión antes...';
+
+		$activeConversation?.on('participantJoined', async (participant) => {
+			const user = await supabase
+				.from<UserProfile>('profiles')
+				.select()
+				.filter('id', 'eq', participant.identity);
+
+			if (user.data && user.data.length > 0) {
+				$activeConversationUsers = [...$activeConversationUsers, user.data[0]];
+			}
+		});
+
+		$activeConversation?.on('participantLeft', async (participant) => {
+			const user = await supabase
+				.from<UserProfile>('profiles')
+				.select()
+				.filter('id', 'eq', participant.identity);
+
+			if (user.data && user.data.length > 0) {
+				$activeConversationUsers = [
+					...$activeConversationUsers.filter((u) => u.id !== user.data[0].id)
+				];
+			}
+		});
+
 		loading = false;
 	});
 </script>
@@ -33,8 +61,8 @@
 			<Spinner dotClass="before:bg-white" />
 		</div>
 	{:else if $activeConversation !== null}
-		<div class="max-w-6xl mx-auto py-2 relative h-full">
-			<h2 class="text-3xl">{$activeConversation.uniqueName}</h2>
+		<div class="w-full relative h-full">
+			<ConversationHeader />
 			<Conversation />
 			<ConversationInput />
 		</div>

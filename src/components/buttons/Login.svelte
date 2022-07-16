@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { signIn } from '$services/user';
-	import GithubIcon from '$components/icons/Github.svelte';
+	import GithubIcon from '$components/icons/GitHub.svelte';
 	import GoogleIcon from '$components/icons/Google.svelte';
 
 	export let type: 'github' | 'google';

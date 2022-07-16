@@ -27,9 +27,12 @@
 
 <svelte:window on:keydown={handleKeyDown} />
 
-<div class="mt-5 flex px-4" id="input-container">
+<div
+	class="flex px-4 py-1 h-[60px] bg-[#008E90] absolute bottom-0 right-0 left-0 z-30"
+	id="input-container"
+>
 	<input
-		class="p-2 flex-1 border-gray-700 border-2 rounded-xl"
+		class="p-3 flex-1 border-gray-700 border-2 rounded-xl"
 		type="text"
 		bind:value={message}
 		placeholder="Escribe tu mensaje aquí"

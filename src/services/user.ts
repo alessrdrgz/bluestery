@@ -1,5 +1,5 @@
-import { supabase } from './supabase';
-import { user, type User } from '../store/userStore';
+import { supabase } from '$services/supabase';
+import { user, type User } from '$store/userStore';
 import type { Provider, Session } from '@supabase/supabase-js';
 import { goto } from '$app/navigation';
 

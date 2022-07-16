@@ -1,7 +1,7 @@
 <script lang="ts">
-	import RoomSelect from '../components/RoomSelect.svelte';
-	import { user } from '../store/userStore';
-	import LoginButton from '../components/buttons/Login.svelte';
+	import RoomSelect from '$components/RoomSelect.svelte';
+	import { user } from '$store/userStore';
+	import LoginButton from '$components/buttons/Login.svelte';
 </script>
 
 <section class="h-full w-full">

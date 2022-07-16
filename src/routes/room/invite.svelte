@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { user } from '../../store/userStore';
-	import { getAccessToken, acceptInvitation } from '../../services/user';
+	import { user } from '$store/userStore';
+	import { getAccessToken, acceptInvitation } from '$services/user';
 	import { page } from '$app/stores';
 
 	async function checkInvitation() {

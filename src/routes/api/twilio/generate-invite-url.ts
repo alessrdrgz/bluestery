@@ -1,7 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { supabase } from '../../../services/supabase';
+import { supabase } from '$services/supabase';
 import { Client } from '@twilio/conversations';
-import { generateAccessToken } from './get-access-token';
+import { generateAccessToken } from '$/routes/api/twilio/get-access-token';
 import * as JWT from 'jsonwebtoken';
 
 const { VITE_PUBLIC_JWT_SECRET: JWT_SECRET, VITE_PUBLIC_DOMAIN: DOMAIN } = import.meta.env;

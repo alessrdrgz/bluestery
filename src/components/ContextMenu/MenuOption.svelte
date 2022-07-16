@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { onMount, getContext } from 'svelte';
-	import { key } from '../../utils/menu';
+	import { getContext } from 'svelte';
+	import { key } from '$utils/menu';
 	import { createEventDispatcher } from 'svelte';
 
 	export let isDisabled = false;

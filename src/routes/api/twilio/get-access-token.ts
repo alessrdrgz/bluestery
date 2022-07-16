@@ -1,5 +1,5 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { supabase } from '../../../services/supabase';
+import { supabase } from '$services/supabase';
 import twilio from 'twilio';
 
 const {

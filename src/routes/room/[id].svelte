@@ -1,16 +1,16 @@
 <script lang="ts">
-	import Conversation from '../../components/conversation/Conversation.svelte';
+	import Conversation from '$components/conversation/Conversation.svelte';
 	import { Conversation as ConversationType } from '@twilio/conversations';
-	import ConversationInput from '../../components/conversation/conversation-input/ConversationInput.svelte';
-	import { activeConversation, activeConversationUsers } from '../../store/conversationStore';
+	import ConversationInput from '$components/conversation/conversation-input/ConversationInput.svelte';
+	import { activeConversation, activeConversationUsers } from '$store/conversationStore';
 	import { onMount } from 'svelte';
-	import { user } from '../../store/userStore';
-	import { joinConversation } from '../../utils/handle-user-conversation';
+	import { user } from '$store/userStore';
+	import { joinConversation } from '$utils/handle-user-conversation';
 	import { page } from '$app/stores';
-	import Spinner from '../../components/Spinner.svelte';
-	import ConversationHeader from '../../components/conversation/ConversationHeader.svelte';
-	import { supabase } from '../../services/supabase';
-	import type { UserProfile } from '../../services/user';
+	import Spinner from '$components/Spinner.svelte';
+	import ConversationHeader from '$components/conversation/ConversationHeader.svelte';
+	import { supabase } from '$services/supabase';
+	import type { UserProfile } from '$services/user';
 
 	let message: string = '';
 	let loading = true;

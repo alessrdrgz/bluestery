@@ -1,6 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import * as JWT from 'jsonwebtoken';
-import { supabase } from '../../../services/supabase';
+import { supabase } from '$services/supabase';
 import { Client } from '@twilio/conversations';
 const { VITE_PUBLIC_JWT_SECRET: JWT_SECRET } = import.meta.env;
 

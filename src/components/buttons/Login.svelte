@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { signIn } from '../../services/user';
-	import GithubIcon from '../icons/Github.svelte';
-	import GoogleIcon from '../icons/Google.svelte';
+	import { signIn } from '$services/user';
+	import GithubIcon from '$components/icons/Github.svelte';
+	import GoogleIcon from '$components/icons/Google.svelte';
 
 	export let type: 'github' | 'google';
 

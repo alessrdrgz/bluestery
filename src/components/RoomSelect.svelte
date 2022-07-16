@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { user } from '../store/userStore';
-	import { joinConversation } from '../utils/handle-user-conversation';
+	import { user } from '$store/userStore';
+	import { joinConversation } from '$utils/handle-user-conversation';
 
 	let room = '';
 	let error = '';

@@ -1,6 +1,6 @@
 import { Client, Conversation } from '@twilio/conversations';
-import { supabase } from './supabase';
-import type { UserProfile } from './user';
+import { supabase } from '$services/supabase';
+import type { UserProfile } from '$services/user';
 
 export async function createOrJoinConversation({
 	room,

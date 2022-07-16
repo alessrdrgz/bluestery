@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { user } from '../../../store/userStore';
+	import { user } from '$store/userStore';
 	import type { Message } from '@twilio/conversations';
 	import UserAvatar from './UserAvatar.svelte';
-	import { stringToColor } from '../../../utils/string-to-color';
-	import { activeConversationUsers } from '../../../store/conversationStore';
-	import { formatDate } from '../../../utils/date-format';
-	import MessageMenu from '../../ContextMenu/MessageMenu.svelte';
-	import { tooltip } from '../../../utils/tooltip';
+	import { stringToColor } from '$utils/string-to-color';
+	import { activeConversationUsers } from '$store/conversationStore';
+	import { formatDate } from '$utils/date-format';
+	import MessageMenu from '$components/ContextMenu/MessageMenu.svelte';
+	import { tooltip } from '$utils/tooltip';
 
 	export let message: Message;
 

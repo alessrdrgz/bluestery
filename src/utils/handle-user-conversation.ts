@@ -1,8 +1,8 @@
-import { createOrJoinConversation, getAllUsersFromConversation } from '../services/chat';
-import { getAccessToken } from '../services/user';
-import { activeConversation, activeConversationUsers } from '../store/conversationStore';
+import { createOrJoinConversation, getAllUsersFromConversation } from '$services/chat';
+import { getAccessToken } from '$services/user';
+import { activeConversation, activeConversationUsers } from '$store/conversationStore';
 import { goto } from '$app/navigation';
-import type { User } from '../store/userStore';
+import type { User } from '$store/userStore';
 import { Conversation } from '@twilio/conversations';
 
 export async function joinConversation(

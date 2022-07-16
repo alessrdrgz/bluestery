@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { onMount, setContext, createEventDispatcher } from 'svelte';
+	import { setContext, createEventDispatcher } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import { key } from '../../utils/menu';
+	import { key } from '$utils/menu';
 
 	export let x: number = 0;
 	export let y: number = 0;

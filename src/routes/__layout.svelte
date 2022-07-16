@@ -1,8 +1,8 @@
 <script lang="ts">
-	import '../styles/global.css';
-	import '../styles/app.css';
-	import { supabase } from '../services/supabase';
-	import { refreshUserSession } from '../services/user';
+	import '$/styles/global.css';
+	import '$/styles/app.css';
+	import { supabase } from '$services/supabase';
+	import { refreshUserSession } from '$services/user';
 
 	const session = supabase.auth.session();
 	const userPromise = refreshUserSession({ session });

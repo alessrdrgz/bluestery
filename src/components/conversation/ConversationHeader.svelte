@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { activeConversation, activeConversationUsers } from '../../store/conversationStore';
+	import { activeConversation, activeConversationUsers } from '$store/conversationStore';
 	let usernames: string[] = $activeConversationUsers.map((user) => user.username);
-	import MenuToggle from './MenuToggle.svelte';
+	import MenuToggle from '$components/conversation/MenuToggle.svelte';
 	import { Motion, useCycle } from 'svelte-motion';
-	import MembersMenu from './conversation-sidebar/Members.svelte';
+	import MembersMenu from '$components/conversation/conversation-sidebar/Members.svelte';
 	import GroupIcon from '@svicons/material-outlined/group.svelte';
 	import { afterUpdate } from 'svelte';
 

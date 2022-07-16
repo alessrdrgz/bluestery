@@ -81,6 +81,23 @@ export async function addUserToConversation({
 	} else return { message: `No se ha encontrado el usuario: ${username}`, error: true };
 }
 
+async function deleteMessagesFromUser({
+	user,
+	conversation
+}: {
+	user: UserProfile;
+	conversation: Conversation;
+}) {
+	const paginator = await conversation.getMessages();
+	const messages = paginator.items;
+
+	for (const message of messages) {
+		if (message.author === user.id) {
+			await message.remove();
+		}
+	}
+}
+
 export async function generateConversationInviteUrl({
 	token,
 	sid

@@ -98,6 +98,31 @@ async function deleteMessagesFromUser({
 	}
 }
 
+export async function removeUserFromConversation({
+	conversation,
+	username
+}: {
+	conversation: Conversation;
+	username: string;
+}): Promise<{ message: string; error?: boolean }> {
+	const user = await supabase
+		.from<UserProfile>('profiles')
+		.select()
+		.filter('username', 'eq', username);
+
+	if (user.data && user.data.length > 0) {
+		try {
+			await conversation.removeParticipant(user.data[0].id);
+			await deleteMessagesFromUser({ user: user.data[0], conversation });
+			return { message: `Usuario ${username} eliminado del chat` };
+		} catch (e) {
+			if (e instanceof Error) {
+				return { message: e.message, error: true };
+			} else return { message: e as string, error: true };
+		}
+	} else return { message: `No se ha encontrado el usuario: ${username}`, error: true };
+}
+
 export async function generateConversationInviteUrl({
 	token,
 	sid

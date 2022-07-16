@@ -15,10 +15,10 @@
 	}
 </script>
 
-<div class="flex flex-col max-w-md mx-auto mt-10">
+<div class="flex flex-col max-w-md mt-10 mx-auto">
 	<form on:submit|preventDefault={handleSubmit}>
-		<label for="room-select" class="block mb-2 text-mdº font-medium text-gray-700">
-			Introduce el código de la sala a la que quieres entrar
+		<label for="room-select" class="block mb-2 text-mdº font-medium text-gray-700 text-center">
+			Introduce el código del chat
 		</label>
 		<p class="text-red-500 text-xs font-medium text-center mb-2">{error}</p>
 		<input

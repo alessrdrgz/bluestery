@@ -26,7 +26,7 @@ export function generateAccessToken(identity: string): string {
 	return accessToken.toJwt();
 }
 
-export const get: RequestHandler = async ({ request }) => {
+export const GET: RequestHandler = async ({ request }) => {
 	const jwt = request.headers.get('jwt');
 	if (!jwt) return { status: 401, body: 'JWT is not defined' };
 

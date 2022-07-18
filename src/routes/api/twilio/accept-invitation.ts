@@ -9,7 +9,7 @@ declare module 'jsonwebtoken' {
 		sid: string;
 	}
 }
-export const get: RequestHandler = async ({ request }) => {
+export const GET: RequestHandler = async ({ request }) => {
 	const jwt = request.headers.get('jwt');
 	if (!jwt) return { status: 401, body: { message: 'Debe iniciar sesión primero' } };
 

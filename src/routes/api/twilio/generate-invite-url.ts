@@ -9,7 +9,7 @@ const { VITE_PUBLIC_JWT_SECRET: JWT_SECRET, VITE_PUBLIC_DOMAIN: DOMAIN } = impor
 if (!JWT_SECRET) throw new Error('JWT env secret is not set');
 if (!DOMAIN) throw new Error('Domain env is not set');
 
-export const get: RequestHandler = async ({ request }) => {
+export const GET: RequestHandler = async ({ request }) => {
 	const jwt = request.headers.get('jwt');
 	if (!jwt) return { status: 401, body: { message: 'No se ha encontrado el usuario' } };
 

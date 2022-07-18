@@ -8,13 +8,11 @@
 	import { removeUserFromConversation } from '../../../services/chat';
 
 	const deleteUser = async ({ user }: { user: UserProfile }) => {
-		console.log({ user });
 		if ($activeConversation !== null) {
 			const res = await removeUserFromConversation({
 				username: user.username,
 				conversation: $activeConversation
 			});
-			console.log({ res });
 		}
 	};
 </script>

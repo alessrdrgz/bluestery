@@ -13,6 +13,9 @@ const config = {
 			$store: path.resolve('src/store'),
 			$: path.resolve('src')
 		}
+	},
+	ssr: {
+		noExternal: ['style-value-types', 'popmotion', 'framesync']
 	}
 };
 

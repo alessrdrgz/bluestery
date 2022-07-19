@@ -2,10 +2,11 @@
 	import RoomSelect from '$components/RoomSelect.svelte';
 	import { user } from '$store/userStore';
 	import LoginButton from '$components/buttons/Login.svelte';
+	import Header from '$components/header/Header.svelte';
 </script>
 
 <section class="h-full w-full">
-	<div class="h-[60px] bg-blue-700 w-full border-b border-gray-300" />
+	<Header />
 	<div class="w-full">
 		<h1
 			class="text-transparent text-center text-6xl font-extrabold bg-clip-text bg-gradient-to-tr from-blue-300 via-blue-500 to-blue-700 mt-4"

@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { activeConversationUsers, activeConversation } from '../../../store/conversationStore';
+	import { activeConversationUsers, activeConversation } from '$store/conversationStore';
 	export let toggle: boolean;
 	import DeleteIcon from '@svicons/material-outlined/delete.svelte';
-	import { user } from '../../../store/userStore';
-	import SidebarMenuContainer from './SidebarMenuContainer.svelte';
-	import type { UserProfile } from '../../../services/user';
-	import { removeUserFromConversation } from '../../../services/chat';
+	import { user } from '$store/userStore';
+	import SidebarMenuContainer from '$components/conversation/conversation-sidebar/SidebarMenuContainer.svelte';
+	import type { UserProfile } from '$services/user';
+	import { removeUserFromConversation } from '$services/chat';
+	import UserAvatar from '$components/header/UserAvatar.svelte';
 
 	const deleteUser = async ({ user }: { user: UserProfile }) => {
 		if ($activeConversation !== null) {
@@ -27,11 +28,7 @@
 					<div
 						class="flex items-center justify-start gap-2 border-black border p-2 rounded-md shadow-lg"
 					>
-						<div
-							id="user-avatar"
-							class="flex-shrink-0 flex-grow-0 basis-auto w-8 h-8 bg-contain rounded-lg shadow-md"
-							style="background-image: url('{converUser.avatar_url}')"
-						/>
+						<UserAvatar url={converUser.avatar_url} class="w-8 h-8" />
 
 						<p class="flex-1 text-white">{converUser.username}</p>
 

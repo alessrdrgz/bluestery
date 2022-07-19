@@ -4,11 +4,29 @@
 	import MenuToggle from '$components/conversation/MenuToggle.svelte';
 	import { Motion, useCycle } from 'svelte-motion';
 	import MembersMenu from '$components/conversation/conversation-sidebar/Members.svelte';
+	import AddMemberMenu from '$components/conversation/conversation-sidebar/AddMember.svelte';
 	import GroupIcon from '@svicons/material-outlined/group.svelte';
+	import GroupAddIcon from '@svicons/material-outlined/group-add.svelte';
 	import { afterUpdate } from 'svelte';
+	import type { Writable } from 'svelte/store';
 
 	const sidebarToggle = useCycle(false, true);
 	const membersToggle = useCycle(false, true);
+	const addMemberToggle = useCycle(false, true);
+
+	const togglers = [membersToggle, addMemberToggle];
+	let lastToggler: Writable<boolean> & { next: (index?: number) => void };
+
+	const handleToggle = (toggler: Writable<boolean> & { next: (index?: number) => void }) => {
+		if (lastToggler === toggler) toggler.next();
+		else {
+			togglers.forEach((t) => {
+				if (t !== toggler) t.set(false);
+			});
+			setTimeout(() => toggler.set(true), 300);
+		}
+		lastToggler = toggler;
+	};
 
 	afterUpdate(() => {
 		usernames = $activeConversationUsers.map((user) => user.username);
@@ -41,14 +59,16 @@
 				use:motion
 				class="h-[calc(100vh-60px)] absolute top-[60px] bottom-0 right-0 bg-[#008e90] text-center [&>button]:mt-4 overflow-y-scroll [&>button>svg]:fill-white [&>button]:w-8 [&>button]:h-8 [&>button]:mx-auto z-50 border-t border-gray-300"
 			>
-				<button
-					on:click={() => {
-						membersToggle.next();
-					}}><GroupIcon /></button
-				>
+				<button on:click={() => handleToggle(addMemberToggle)}>
+					<GroupAddIcon />
+				</button>
+				<button on:click={() => handleToggle(membersToggle)}>
+					<GroupIcon />
+				</button>
 			</div>
 		</Motion>
 	</div>
 </Motion>
 
 <MembersMenu toggle={$membersToggle && $sidebarToggle} />
+<AddMemberMenu toggler={addMemberToggle} toggle={$sidebarToggle} />

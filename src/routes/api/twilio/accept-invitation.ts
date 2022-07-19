@@ -1,22 +1,22 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import * as JWT from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { supabase } from '$services/supabase';
 import { Client } from '@twilio/conversations';
 const { VITE_PUBLIC_JWT_SECRET: JWT_SECRET } = import.meta.env;
 
 declare module 'jsonwebtoken' {
-	export interface ConversationSIDJwtPayload extends JWT.JwtPayload {
+	export interface ConversationSIDJwtPayload extends jwt.JwtPayload {
 		sid: string;
 	}
 }
 export const GET: RequestHandler = async ({ request }) => {
-	const jwt = request.headers.get('jwt');
-	if (!jwt) return { status: 401, body: { message: 'Debe iniciar sesión primero' } };
+	const jwToken = request.headers.get('jwt');
+	if (!jwToken) return { status: 401, body: { message: 'Debe iniciar sesión primero' } };
 
 	const sidToken = request.headers.get('sidToken');
 	if (!sidToken) return { status: 422, body: { message: 'Enlace inválido' } };
 
-	const user = await supabase.auth.api.getUser(jwt);
+	const user = await supabase.auth.api.getUser(jwToken);
 	if (!user) return { status: 401, body: { message: 'No se ha encontrado el usuario' } };
 
 	const accessToken = request.headers.get('accessToken');
@@ -30,7 +30,7 @@ export const GET: RequestHandler = async ({ request }) => {
 		};
 
 	try {
-		const { sid } = <JWT.ConversationSIDJwtPayload>JWT.verify(sidToken, JWT_SECRET);
+		const { sid } = <jwt.ConversationSIDJwtPayload>jwt.verify(sidToken, JWT_SECRET);
 		const client = new Client(accessToken);
 		const conversation = await client.getConversationBySid(sid);
 
@@ -48,7 +48,7 @@ export const GET: RequestHandler = async ({ request }) => {
 				return { status: 500, body: { message: 'Error al añadir usuario a la conversación' } };
 			});
 	} catch (e) {
-		if (e instanceof JWT.TokenExpiredError)
+		if (e instanceof jwt.TokenExpiredError)
 			return { status: 401, body: { message: 'El enlace ha expirado' } };
 
 		if (typeof e === 'object' && e !== null)

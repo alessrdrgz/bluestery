@@ -8,3 +8,4 @@ node_modules
 !.env.example
 package-lock.json
 .vscode/
+.vercel_build_output

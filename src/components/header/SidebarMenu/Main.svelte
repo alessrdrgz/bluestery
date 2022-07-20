@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Motion, useCycle } from 'svelte-motion';
-	import CloseIcon from '@svicons/material-outlined/close.svelte';
 	import LogoutIcon from '@svicons/material-outlined/logout.svelte';
 	import ChatsListIcon from '@svicons/material-outlined/question-answer.svelte';
 	import { logout } from '$services/user';

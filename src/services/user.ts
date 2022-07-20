@@ -117,3 +117,13 @@ export async function acceptInvitation({
 		else return goto('/');
 	} else return res.json();
 }
+
+export async function getUserConversations({ user }: { user: User }) {
+	const res = await fetch('/api/twilio/get-conversations', {
+		headers: {
+			jwt: user.token
+		}
+	});
+
+	return res.json();
+}

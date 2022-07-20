@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { user } from '$store/userStore';
 	import { joinConversation } from '$utils/handle-user-conversation';
+	import PrimaryButton from '$components/buttons/Primary.svelte';
 
 	let room = '';
 	let error = '';
@@ -29,11 +30,6 @@
 				error === '' && 'mt-8'
 			}`}
 		/>
-		<button
-			type="submit"
-			class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 mt-2"
-		>
-			¡Entrar!</button
-		>
+		<PrimaryButton type="submit" class="w-full mt-2">¡Acceder al chat!</PrimaryButton>
 	</form>
 </div>

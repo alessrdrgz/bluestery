@@ -1,38 +1,100 @@
-# create-svelte
+<div align="center">
+  <a target="_blank" href="https://nodejs.org/">
+    <img title="Node" alt="Node badge" src="https://img.shields.io/badge/Node-v16.14.2-green" />
+  </a>
+  <a target="_blank" href="https://svelte.dev/">
+    <img title="Svelte" alt="Svelte badge" src="https://img.shields.io/badge/Svelte-v3.49.00-orange" />
+  </a>
+  <a target="_blank" href="https://kit.svelte.dev/">
+    <img title="SvelteKit" alt="SvelteKit badge" src="https://img.shields.io/badge/SvelteKit-next-red" />
+  </a>
+  <a target="_blank" href="https://tailwindcss.com/">
+    <img title="TailwindCSS" alt="TailwindCSS badge" src="https://img.shields.io/badge/Tailwind-v3.1.4-blue" />
+  </a>
+  <a target="_blank" href="https://vitejs.dev/"> 
+    <img tittle="Vite" alt="Vite badge" src="https://img.shields.io/badge/Vite-v3.0.0-greenbright">
+  </a>
+</div>
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+# Bluestery - Hackathon Julio 2022 - Twilio + Chat secreto
 
-## Creating a project
+Bluestery es un projecto desarrollado para la Hackathon de [Midudev](https://www.twitch.tv/midudev), julio del 2022. Consiste en crear un chat secreto donde solo la gente que tú quieras pueda hablar usando los servicios de [Twilio Conversations](https://www.twilio.com/messaging/conversations-api)
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Características
 
-```bash
-# create a new project in the current directory
-npm init svelte
+- [x] Identificación del usuario con Github o Google
+- [x] Crear chats
+- [x] Listar todos los usuarios del chat
+- [x] El administrador del chat puede añadir un participante al chat
+- [x] El administrador del chat puede generar un enlace para acceder al chat
+- [x] El administrador del chat puede eliminar a un participante del chat
+- [x] Copiar mensajes
+- [x] Editar tus mensajes
+- [x] Eliminar tus mensajes
+- [x] El administrador puede eliminar cualquier mensaje
+- [ ] Vaciar el chat
+- [ ] Eliminar un chat
+- [ ] Listar los chats a los que estás unido
+- [ ] Notificaciones
 
-# create a new project in my-app
-npm init svelte my-app
+## Desarollo
+
+Clona el repositorio e instala las dependencias
+
+```sh
+git clone https://github.com/alessrdrgz/secret-chat
+cd secret-chat
+npm install
 ```
 
-## Developing
+Ejecuta el entorno de desarrollo
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
+```sh
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+Por defecto se mostrará la aplicación en la ruta http://localhost:5173
 
-To create a production version of your app:
+## Scripts disponibles
 
-```bash
-npm run build
-```
+### _`npm run dev`_
 
-You can preview the production build with `npm run preview`.
+_Ejecuta la aplicación en el modo de desarrollo, los cambios se refrescarán automáticamente en la web_\
+_Abrir la dirección http://localhost:5173 para visualizarlo en el navegador_
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+### _`npm run build`_
+
+_Compilará toda la aplicación con el estándar indicado en la configuración de svelte_
+
+### _`npm run preview`_
+
+_Desplegará localmente la versión compilada por el comando `npm run dev` para previsualizar como sería la versión de producción_
+
+### _`npm run lint`_
+
+_Ejecuta el linter sobre todo el proyecto y muestra los errores, en caso de que hubiera_
+
+### _`npm run format`_
+
+_Ejecuta prettier para formatear todo el código_
+
+## Estructura del proyecto
+
+La estructura de directorios para la aplicación es la siguiente:
+
+| Nombre                  | Descripción                                                                                                         |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| **src/components**      | Contiene los componentes usados en el proyecto                                                                      |
+| **src/routes**          | Contiene las rutas renderizadas en el proyecto                                                                      |
+| **src/routes/api**      | Contiene los endpoints de la api del proyecto                                                                       |
+| **src/services**        | Contiene ficheros con funciones para llamar a los distintos servicios usados en la aplicación (twilio, supabase...) |
+| **src/store**           | Contiene los stores de svelte                                                                                       |
+| **src/styles**          | Directorio para los ficheros de estilos                                                                             |
+| **src/utils**           | Funciones de utilidad                                                                                               |
+| **static**              | Contiene los ficheros servidos de manera estática                                                                   |
+| **.eslintrc.cjs**       | Fichero de configuración de ESLint                                                                                  |
+| **.prettierrc**         | Fichero de configuración de Prettier                                                                                |
+| **tailwind.config.cjs** | Fichero de configuración de tailwind                                                                                |
+| **postcss.config.cjs**  | Fichero de configuración de PostCSS                                                                                 |
+| **svelte.config.js**    | Fichero de configuración de Svelte                                                                                  |
+| **vite.config.js**      | Fichero de configuración de Vite                                                                                    |

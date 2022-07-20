@@ -6,6 +6,7 @@
 	import { user } from '$store/userStore';
 	import { getUserConversations } from '$services/user';
 	import type { UserConversations } from '$routes/api/twilio/get-conversations';
+	import ConversationCard from '$components/header/SidebarMenu/ConversationCard.svelte';
 
 	export let toggler: Writable<boolean> & { next: (index?: number) => void };
 	export let toggle: boolean;
@@ -40,36 +41,12 @@
 			</div>
 			<div>
 				{#each conversationsNames as conversation}
-					<a href={`/room/${conversation.name}`}>
-						<div class="border border-white rounded-lg mt-4 p-2 shadow-md bg-[#2867bb] relative">
-							<p class="text-white uppercase">{conversation.name}</p>
-							<p class="text-gray-300 overflow-x-clip">
-								{`${conversation.author}: ${conversation.last_message}`}
-							</p>
-							{#if conversation.unread_messages > 0}
-								<span
-									class="text-white bg-red-500 rounded-full p-1 absolute -top-3 -right-2 w-6 h-6 text-center flex items-center justify-center"
-									>{conversation.unread_messages}
-								</span>
-							{/if}
-						</div>
-					</a>
-				{/each}
-				{#each conversationsNames as conversation}
-					<a href={`/room/${conversation.name}`}>
-						<div class="border border-white rounded-lg mt-4 p-2 shadow-md bg-[#2867bb] relative">
-							<p class="text-white uppercase">{conversation.name}</p>
-							<p class="text-gray-300 overflow-x-clip">
-								{`${conversation.author}: ${conversation.last_message}`}
-							</p>
-							{#if conversation.unread_messages > 0}
-								<span
-									class="text-white bg-red-500 rounded-full p-1 absolute -top-3 -right-2 w-6 h-6 text-center flex items-center justify-center"
-									>{conversation.unread_messages}
-								</span>
-							{/if}
-						</div>
-					</a>
+					<ConversationCard
+						name={conversation.name}
+						author={conversation.author}
+						lastMessage={conversation.last_message}
+						unreadMessages={conversation.unread_messages}
+					/>
 				{/each}
 			</div>
 		</div>

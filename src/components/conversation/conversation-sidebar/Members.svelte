@@ -32,14 +32,16 @@
 
 						<p class="flex-1 text-white">{converUser.username}</p>
 
-						<button
-							class="h-6 w-6"
-							on:click={async () => {
-								await deleteUser({ user: converUser });
-							}}
-						>
-							<DeleteIcon class="fill-white" />
-						</button>
+						{#if $activeConversation?.createdBy === $user?.id}
+							<button
+								class="h-6 w-6"
+								on:click={async () => {
+									await deleteUser({ user: converUser });
+								}}
+							>
+								<DeleteIcon class="fill-white" />
+							</button>
+						{/if}
 					</div>
 				{/if}
 			{/each}

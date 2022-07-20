@@ -9,6 +9,7 @@
 	import GroupAddIcon from '@svicons/material-outlined/group-add.svelte';
 	import { afterUpdate } from 'svelte';
 	import type { Writable } from 'svelte/store';
+	import { user } from '$store/userStore';
 
 	const sidebarToggle = useCycle(false, true);
 	const membersToggle = useCycle(false, true);
@@ -59,9 +60,11 @@
 				use:motion
 				class="h-[calc(100vh-60px)] absolute top-[60px] bottom-0 right-0 bg-[#008e90] text-center [&>button]:mt-4 overflow-y-scroll [&>button>svg]:fill-white [&>button]:w-8 [&>button]:h-8 [&>button]:mx-auto z-50 border-t border-gray-300"
 			>
-				<button on:click={() => handleToggle(addMemberToggle)}>
-					<GroupAddIcon />
-				</button>
+				{#if $activeConversation?.createdBy === $user?.id}
+					<button on:click={() => handleToggle(addMemberToggle)}>
+						<GroupAddIcon />
+					</button>
+				{/if}
 				<button on:click={() => handleToggle(membersToggle)}>
 					<GroupIcon />
 				</button>

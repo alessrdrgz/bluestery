@@ -33,7 +33,8 @@ Bluestery es un projecto desarrollado para la Hackathon de [Midudev](https://www
 - [x] Eliminar tus mensajes
 - [x] El administrador puede eliminar cualquier mensaje
 - [ ] Vaciar el chat
-- [ ] Eliminar un chat
+- [x] Eliminar un chat
+- [x] Salir del chat
 - [x] Listar los chats a los que estás unido
 - [ ] Notificaciones
 

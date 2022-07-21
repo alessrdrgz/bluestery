@@ -39,8 +39,12 @@
 </script>
 
 {#key $activeConversation}
-	<div bind:this={div} class="h-4/5 overflow-y-auto overflow-x-hidden" on:scroll={handleUserScroll}>
-		<div class=" flex flex-col justify-end [&>div]:flex-grow-0 [&>div]:flex-shrink-0 h-full">
+	<div
+		bind:this={div}
+		class="h-4/5 overflow-y-scroll overflow-x-hidden"
+		on:scroll={handleUserScroll}
+	>
+		<div class="flex flex-col justify-end [&>div]:flex-grow-0 [&>div]:flex-shrink-0">
 			{#key messages}
 				{#if messages.length > 0}
 					{#each messages as message}

@@ -1,12 +1,12 @@
 <script lang="ts">
 	let buttonProps = {
 		class: $$restProps.class,
-		disabled: $$restProps.disabled
+		disabled: $$restProps.disabled,
+		type: $$restProps.type || 'button'
 	};
 </script>
 
 <button
-	type="button"
 	on:click
 	on:mouseover
 	on:mouseenter

@@ -9,6 +9,7 @@ export type UserConversations = {
 	last_message: string;
 	author: string;
 	unread_messages: number;
+	creator: string;
 };
 
 export const GET: RequestHandler = async ({ request }) => {
@@ -38,12 +39,18 @@ export const GET: RequestHandler = async ({ request }) => {
 						.select()
 						.filter('id', 'eq', lastMessage.author);
 
-					if (conversation.uniqueName && author.data[0] && lastMessage.body) {
+					const creator = await supabase
+						.from<UserProfile>('profiles')
+						.select()
+						.filter('id', 'eq', conversation.createdBy);
+
+					if (conversation.uniqueName && author.data[0] && lastMessage.body && creator.data[0]) {
 						userConversations.push({
 							name: conversation.uniqueName,
 							last_message: lastMessage.body,
 							author: author.data[0].username,
-							unread_messages: unreadMessages ?? 0
+							unread_messages: unreadMessages ?? 0,
+							creator: creator.data[0].username
 						});
 					}
 				}

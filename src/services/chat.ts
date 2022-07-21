@@ -18,6 +18,7 @@ export async function createOrJoinConversation({
 
 				try {
 					conversation = await client.createConversation({ uniqueName: room });
+					await conversation.join();
 					resolve(conversation);
 				} catch (e) {
 					if (e instanceof Error && e.message === 'Conflict') {

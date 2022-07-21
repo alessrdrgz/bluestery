@@ -9,7 +9,9 @@
 </script>
 
 <div class="h-[60px] bg-[#2c73d0] w-full border-b border-gray-300 flex items-center">
-	<a href="/"><h1 class="text-white text-2xl ml-4">Bluestery</h1></a>
+	<a href="/">
+		<img alt="Bluestery Logo" src="/logo.svg" class="h-14 ml-2" />
+	</a>
 	{#if $user !== null}
 		{#if $mainMenuToggler}
 			<button on:click={() => mainMenuToggler.next()}>

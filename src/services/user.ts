@@ -113,9 +113,8 @@ export async function acceptInvitation({
 
 	if (res.status === 200 || res.status === 304) {
 		const location = res.headers.get('Location');
-		if (location) return goto(location);
-		else return goto('/');
-	} else return res.json();
+		return { location: location ?? '/' };
+	} else return await res.json();
 }
 
 export async function getUserConversations({ user }: { user: User }) {

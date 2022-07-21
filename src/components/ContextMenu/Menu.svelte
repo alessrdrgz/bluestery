@@ -28,7 +28,7 @@
 	}
 </script>
 
-<svelte:body on:click={onPageClick} />
+<svelte:body on:click={onPageClick} on:contextmenu={onPageClick} />
 
 <div
 	transition:fade={{ duration: 100 }}

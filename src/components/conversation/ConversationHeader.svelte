@@ -12,6 +12,8 @@
 	import { user } from '$store/userStore';
 	import HomeIcon from '@svicons/material-outlined/home.svelte';
 	import { goto } from '$app/navigation';
+	import LeaveIcon from '@svicons/material-outlined/logout.svelte';
+	import DeleteIcon from '@svicons/material-outlined/delete.svelte';
 
 	const sidebarToggle = useCycle(false, true);
 	const membersToggle = useCycle(false, true);
@@ -74,6 +76,30 @@
 				<button on:click={() => goto('/')}>
 					<HomeIcon />
 				</button>
+
+				{#if $activeConversation !== null}
+					{#if $activeConversation.createdBy === $user?.id}
+						<button
+							on:click={async () => {
+								if ($activeConversation !== null) {
+									await $activeConversation.delete();
+									goto('/');
+								}
+							}}
+							><DeleteIcon />
+						</button>
+					{:else}
+						<button
+							on:click={async () => {
+								if ($activeConversation !== null) {
+									await $activeConversation.leave();
+									goto('/');
+								}
+							}}
+							><LeaveIcon />
+						</button>
+					{/if}
+				{/if}
 			</div>
 		</Motion>
 	</div>

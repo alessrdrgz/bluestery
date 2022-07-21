@@ -10,6 +10,8 @@
 	import { afterUpdate } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { user } from '$store/userStore';
+	import HomeIcon from '@svicons/material-outlined/home.svelte';
+	import { goto } from '$app/navigation';
 
 	const sidebarToggle = useCycle(false, true);
 	const membersToggle = useCycle(false, true);
@@ -67,6 +69,10 @@
 				{/if}
 				<button on:click={() => handleToggle(membersToggle)}>
 					<GroupIcon />
+				</button>
+
+				<button on:click={() => goto('/')}>
+					<HomeIcon />
 				</button>
 			</div>
 		</Motion>

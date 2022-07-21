@@ -14,9 +14,7 @@
 					const accessToken = await getAccessToken({ token: $user.token });
 					if (accessToken) {
 						const { location } = await acceptInvitation({ sidToken, accessToken, user: $user });
-						if (!location) resolve({ message: 'Error inesperado', error: true });
-						goto(location);
-						resolve({ message: 'OK' });
+						resolve(goto(location));
 					} else resolve({ error: true, message: `Error al obtener el token de acceso` });
 				} else resolve({ error: true, message: 'Enlace de invitación inválido' });
 			} else resolve({ error: true, message: `Debe iniciar sesión primero` });

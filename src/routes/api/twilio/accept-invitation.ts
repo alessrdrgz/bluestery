@@ -2,6 +2,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import jwt from 'jsonwebtoken';
 import { supabase } from '$services/supabase';
 import { Client } from '@twilio/conversations';
+import twilio from 'twilio';
 const { VITE_PUBLIC_JWT_SECRET: JWT_SECRET } = import.meta.env;
 
 declare module 'jsonwebtoken' {
@@ -9,6 +10,12 @@ declare module 'jsonwebtoken' {
 		sid: string;
 	}
 }
+
+const {
+	VITE_PUBLIC_TWILIO_ACCOUNT_SID: TWILIO_ACCOUNT_SID,
+	VITE_PUBLIC_TWILIO_AUTH_TOKEN: TWILIO_AUTH_TOKEN
+} = import.meta.env;
+
 export const GET: RequestHandler = async ({ request }) => {
 	const jwToken = request.headers.get('jwt');
 	if (!jwToken) return { status: 401, body: { message: 'Debe iniciar sesión primero' } };
@@ -29,31 +36,14 @@ export const GET: RequestHandler = async ({ request }) => {
 			body: { message: 'Tienes que iniciar sesión para utilizar este enlace' }
 		};
 
-	try {
-		const { sid } = <jwt.ConversationSIDJwtPayload>jwt.verify(sidToken, JWT_SECRET);
-		const client = new Client(accessToken);
-		const conversation = await client.getConversationBySid(sid);
+	const { sid } = <jwt.ConversationSIDJwtPayload>jwt.verify(sidToken, JWT_SECRET);
+	const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+	const conversationCtx = client.conversations.v1.conversations(sid);
 
-		if (!conversation)
-			return { status: 404, body: { message: `Conversación con SID ${sid} no encontrada` } };
-		return conversation
-			.add(identity)
-			.then(() => {
-				return { status: 200, headers: { Location: `/room/${conversation.uniqueName}` } };
-			})
-			.catch((err) => {
-				console.error(err.body);
-				if (err.body.message === 'Participant already exists')
-					return { status: 304, headers: { Location: `/room/${conversation.uniqueName}` } };
-				return { status: 500, body: { message: 'Error al añadir usuario a la conversación' } };
-			});
-	} catch (e) {
-		if (e instanceof jwt.TokenExpiredError)
-			return { status: 401, body: { message: 'El enlace ha expirado' } };
+	if (!conversationCtx)
+		return { status: 404, body: { message: `Conversación con SID ${sid} no encontrada` } };
 
-		if (typeof e === 'object' && e !== null)
-			return { status: 401, body: { message: e.toString() } };
-
-		return { status: 400, body: { message: `Error inesperado: ${e}` } };
-	}
+	await conversationCtx.participants.create({ identity });
+	const conversation = await conversationCtx.fetch();
+	return { status: 200, headers: { Location: `/room/${conversation.uniqueName}` } };
 };

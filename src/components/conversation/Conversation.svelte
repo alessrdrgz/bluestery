@@ -4,6 +4,7 @@
 	import type { Message as Msg } from '@twilio/conversations';
 	import { user } from '$store/userStore';
 	import Message from '$components/conversation/chat/Message.svelte';
+	import SadIcon from '@svicons/material-outlined/sentiment-very-dissatisfied.svelte';
 	let div: HTMLDivElement;
 	let messages: Array<Msg> = [];
 	let autoscroll = true;
@@ -39,11 +40,18 @@
 
 {#key $activeConversation}
 	<div bind:this={div} class="h-4/5 overflow-y-auto overflow-x-hidden" on:scroll={handleUserScroll}>
-		<div class=" flex flex-col justify-end [&>div]:flex-grow-0 [&>div]:flex-shrink-0">
+		<div class=" flex flex-col justify-end [&>div]:flex-grow-0 [&>div]:flex-shrink-0 h-full">
 			{#key messages}
-				{#each messages as message}
-					<Message {message} />
-				{/each}
+				{#if messages.length > 0}
+					{#each messages as message}
+						<Message {message} />
+					{/each}
+				{:else}
+					<div class="h-full w-full flex items-center justify-center flex-col">
+						<h2 class="text-gray-400 text-2xl font-extrabold">Aún no hay mensajes</h2>
+						<SadIcon class="fill-gray-400 w-32 h-32 mt-2" />
+					</div>
+				{/if}
 			{/key}
 		</div>
 	</div>

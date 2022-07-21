@@ -8,6 +8,7 @@
 	import type { UserConversations } from '$routes/api/twilio/get-conversations';
 	import ConversationCard from '$components/header/SidebarMenu/ConversationCard.svelte';
 	import Spinner from '$components/Spinner.svelte';
+	import SadIcon from '@svicons/material-outlined/sentiment-very-dissatisfied.svelte';
 
 	export let toggler: Writable<boolean> & { next: (index?: number) => void };
 	export let toggle: boolean;
@@ -51,7 +52,7 @@
 				<div class="h-full flex justify-center items-center w-full overflow-y-hidden">
 					<Spinner dotClass="before:bg-white" />
 				</div>
-			{:else}
+			{:else if conversationsNames.length > 0}
 				<div>
 					{#each conversationsNames as conversation}
 						<ConversationCard
@@ -61,6 +62,13 @@
 							unreadMessages={conversation.unread_messages}
 						/>
 					{/each}
+				</div>
+			{:else}
+				<div class="flex items-center justify-center h-full flex-col">
+					<h2 class="text-white text-2xl font-extrabold text-center">
+						Aún no formas parte de ningún chat
+					</h2>
+					<SadIcon class="fill-white h-32 w-32 mt-4" />
 				</div>
 			{/if}
 		</div>
